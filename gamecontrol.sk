@@ -1,0 +1,43 @@
+
+command /gamestart:
+    trigger:
+        if player is op or console:
+            set {ingame} to 1
+            broadcast "&b&l5&c&l초 후 게임이 시작됩니다..."
+            make console execute command "/playsound minecraft:zombie.multigrowl master @a ~ ~ ~ 0.05 0.8 1"
+            wait 2 seconds
+            send title "&c&l3" to player
+            wait 1 seconds
+            send title "&c&l2" to player
+            wait 1 seconds
+            send title "&c&l1" to player
+            wait 1 seconds
+            make console execute command "/function zombie:game_start"
+            make console execute command "/eco set ** 10000"
+
+command /gamestop:
+    trigger:
+        if player is op or console:
+            set {ingame} to 0
+            make console execute command "/function zombie:game_reset"
+            make console execute command "/eco set ** 0"
+
+command /wjsmddk:
+    trigger:
+        make console execute command "/scoreboard players set %player% wjsmddk 1"
+
+command /저능아:
+    trigger:
+        make console execute command "/scoreboard players set %player% wjsmddk 1"
+
+command /link [<string>]:
+    trigger:
+        if arg-1 is set:
+            if arg-1 contains "http":
+                execute console command "tellraw @a [{""text"":""<%player%> ""},{""text"":""[링크]"",""clickEvent"":{""action"":""open_url"",""value"":""%arg-1%""}}]"
+            else:
+                execute console command "tellraw @a [{""text"":""<%player%> ""},{""text"":""[링크]"",""clickEvent"":{""action"":""open_url"",""value"":""https://%arg-1%""}}]"
+
+on swap hand items:
+    player is sneaking
+    make player execute command "/qa shop"
